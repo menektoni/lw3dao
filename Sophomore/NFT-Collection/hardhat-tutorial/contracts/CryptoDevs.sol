@@ -1,4 +1,4 @@
-//SPDx-License-Identifier: MIT
+//SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.4;
 
@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract CryptoDevs is ERC721Enumerable, Ownable {
 
-    string _baseTokenUri;
+    string _baseTokenURI;
 
     uint256 public _price = 0.01 ether;
 
@@ -31,7 +31,7 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
     }
 
     constructor (string memory baseURI, address whitelistContract) ERC721("CryptoDevs", "CD") {
-        baseURI = _baseTokenUri;
+        _baseTokenURI = baseURI;
         whitelist = IWhitelist(whitelistContract);
     }
 
@@ -61,8 +61,8 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
         _safeMint(msg.sender, tokenIds);
     }
 
-    function baseURI() internal view virtual override returns (string memory) {
-        return _baseTokenUri;
+    function _baseURI() internal view virtual override returns (string memory) {
+        return _baseTokenURI;
     }
 
     function setPaused (bool val) onlyOwner public {
