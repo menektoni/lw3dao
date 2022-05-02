@@ -804,7 +804,7 @@ export const TOKEN_CONTRACT_ABI = [
     },
     {
       "inputs": [],
-      "name": "maxTokenSupply",
+      "name": "maxTotalSupply",
       "outputs": [
         {
           "internalType": "uint256",
@@ -1003,4 +1003,4 @@ export const TOKEN_CONTRACT_ABI = [
       "type": "receive"
     }
   ];
-export const TOKEN_CONTRACT_ADDRESS = "0x2bf3a5FAeE17FB108b2BcD58483F833E6a76F1f0";
+export const TOKEN_CONTRACT_ADDRESS = "0x5c778B47Ffb06d967dD74E6fFbF472642b6DF773";
