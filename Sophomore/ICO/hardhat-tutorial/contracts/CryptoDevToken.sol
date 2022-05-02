@@ -17,7 +17,7 @@ contract CryptoDevsToken is ERC20, Ownable {
       // More information on this can be found in the Freshman Track Cryptocurrency tutorial.
 
     uint256 public constant tokensPerNFT = 10 *10**18;
-    uint256 public constant maxTokenSupply = 10000* 10**18;
+    uint256 public constant maxTotalSupply = 10000 * 10**18;
 
     ICryptoDevs CryptoDevsNFT;
 
@@ -33,7 +33,7 @@ contract CryptoDevsToken is ERC20, Ownable {
 
         uint256 amountWithDecimals = amount * 10**18;
         // First time totalSupply() appearence. This means the sum of the tokens of all the holders.
-        require(totalSupply() + amountWithDecimals< maxTokenSupply, "Run out of tokens");
+        require(totalSupply() + amountWithDecimals< maxTotalSupply, "Run out of tokens");
 
         // Now we should send the tokens to the one claiming them. We are going to use the internal function _mint
         _mint(msg.sender, amountWithDecimals);
