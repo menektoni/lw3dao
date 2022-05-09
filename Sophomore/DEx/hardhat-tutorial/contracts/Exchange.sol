@@ -86,13 +86,14 @@ contract Exchange is ERC20 {
         return numerator/denominator;
     }
     // Let's make the swap ether for CryptoDevsToken
-    function ethCryptoDevToken(uint _minTokens) public payable {
+    function ethToCryptoDevToken(uint _minTokens) public payable {
         uint256 tokenReserve = getReserve();
 
         uint256 tokensBought = getAmountOfTokens(
             msg.value, 
             address(this).balance - msg.value, 
-            tokenReserve); // Why value of outputReserve is tokenReserve
+            // Why value of outputReserve is tokenReserve. It's because what we are swapping
+            tokenReserve); 
 
         require (tokensBought >= _minTokens, "Insufficient output amount");
 
@@ -100,5 +101,16 @@ contract Exchange is ERC20 {
     } 
 
     // Let's make the swap CryptoDevToken for ether
-    
+    function cryptoDevTokenToEth (uint256 _tokensSold, uint256 _minEth) public {
+        uint TokenReserve = getReserve();
+        uint256 ethBought =getAmountOfTokens(
+            _tokensSold, 
+            TokenReserve - _tokensSold, 
+            address(this).balance);
+
+        // Sending _tokensSold to the contract
+        ERC20(cryptoDevTokenAddress).transferFrom(msg.sender, address(this), _tokensSold);
+        // Sending ETH to the msg.sender
+        payable(msg.sender).transfer(ethBought);
+    }
 }
