@@ -56,7 +56,7 @@ contract Exchange is ERC20 {
         uint ethReserve = address(this).balance;
         uint _totalSupply = totalSupply();
 
-        uint ethAmount = (ethBalance * _amount)/(_totalSuply);
+        uint ethAmount = (ethReserve * _amount)/(_totalSupply);
 
         uint cryptoDevTokenAmount = (getReserve() * _amount)/(_totalSupply);
 
@@ -105,8 +105,10 @@ contract Exchange is ERC20 {
         uint TokenReserve = getReserve();
         uint256 ethBought =getAmountOfTokens(
             _tokensSold, 
-            TokenReserve - _tokensSold, 
+            TokenReserve, 
             address(this).balance);
+
+        require(ethBought >= _minEth, "Insufficient output amount");
 
         // Sending _tokensSold to the contract
         ERC20(cryptoDevTokenAddress).transferFrom(msg.sender, address(this), _tokensSold);
