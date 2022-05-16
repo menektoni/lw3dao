@@ -23,9 +23,59 @@ export const getEtherBalance = async (
         } else {
             const balance = await provider.getBalance(address);
             return balance;
-        } catch (err) {
-            console.error(err);
-            return 0
-        }
+        } 
+    } catch (err) {
+        console.error(err);
+        return 0
     }
 }
+
+// Get CD tokens balance  
+
+export const getCDTokensBalance = async (provider, address) => { 
+    try {const TokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        provider
+    );
+    const balanceOfCryptoDevTokens = await tokenContract.balanceOf(address);
+    return balanceOfCryptoDevTokens;
+
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+// GetLPTokensReserve
+
+export const getLPTokensReserve = async (provider, address) => {
+    try {
+        const exchangeContract = new Contract (
+            EXCHANGE_CONTRACT_ADDRESS,
+            EXCHANGE_CONTRACT_ABI,
+            provider
+        );
+        const balanceOfLPTokens = exchangeContract.balanaceOf(address);
+        return balanceOfLPTokens;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+// GetReserveOfCDTokens
+export const getReserveOfCDTokens = async (provider) => {
+    try {
+        const exchangeContract = new Contract(
+            EXCHANGE_CONTRACT_ADDRESS,
+            EXCHANGE_CONTRACT_ABI,
+            provider
+        );
+        const reserve = await exchangeContract.getReserve();
+        return reserve;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
