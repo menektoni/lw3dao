@@ -1,4 +1,4 @@
-export const TOKEN_CONTRACT_ABI = "[
+export const TOKEN_CONTRACT_ABI = [
     {
       "inputs": [
         {
@@ -418,10 +418,10 @@ export const TOKEN_CONTRACT_ABI = "[
       "stateMutability": "payable",
       "type": "receive"
     }
-  ]";
+  ];
 export const TOKEN_CONTRACT_ADDRESS =
   "0x5c778B47Ffb06d967dD74E6fFbF472642b6DF773";
-export const EXCHANGE_CONTRACT_ABI = "[
+export const EXCHANGE_CONTRACT_ABI = [
     {
       "inputs": [
         {
@@ -832,5 +832,5 @@ export const EXCHANGE_CONTRACT_ABI = "[
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ]";
+  ];
 export const EXCHANGE_CONTRACT_ADDRESS = "0x681Bf49461c29Ff79f4759381BD4dA83c59377b4";
