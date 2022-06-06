@@ -43,7 +43,7 @@ contract RandomWinnerGame is VRFConsumerBase, Ownable {
    }
 
 
-   function startGame (uint256 _maxPlayers, uint256 _entryFee) public onlyOwner {
+   function startGame (uint8 _maxPlayers, uint256 _entryFee) public onlyOwner {
        require(!gameStarted, "Game Already Started");
 
        delete players; 
@@ -56,5 +56,41 @@ contract RandomWinnerGame is VRFConsumerBase, Ownable {
        emit GameStarted(gameId, maxPlayers, entryFee);
    }
 
-   function joinGame (uint256 gameId; )
+   function joinGame () public payable {
+       require(gameStarted, "Game hasn't been started.");
+
+       require(msg.value == entryFee, "Value isn't equal to the entry fee");
+
+       require(players.length > maxPlayers, "Game is full");
+
+       players.push(msg.sender);
+       emit PlayerJoined(gameId, msg.sender);
+
+       if (players.length == maxPlayers) {
+           getRandomWinner();
+       }
+   }
+
+   function fulfillRandomness(bytes32 requestId, uint256 randomness) internal virtual override {
+       uint256 winnerIndex = randomness % players.length;
+
+       address winner = players[winnerIndex];
+
+       (bool sent,) = winner.call{value: address(this).balance}("");
+       require(sent, "Transaction Failed");
+
+       emit GameEnded(gameId, winner, requestId);
+
+       gameStarted = false;
+   }
+
+   function getRandomWinner() private returns (bytes32 requestId) {
+       require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK");
+
+       return requestRandomness(keyHash, fee);
+   }
+
+    receive() external payable {}
+
+    fallback() external payable {}
 }
